@@ -1,0 +1,38 @@
+# Определение типа устройства
+$OS = (Get-WmiObject Win32_OperatingSystem).Caption
+
+if ($OS -like "*Windows Server*") {
+    Write-Host "Это Windows Server. Настраиваем сетевой интерфейс"
+
+    # Получаем список адаптеров
+    $adapters = Get-NetAdapter | Where-Object {$_.Status -eq "Up"}
+
+    # Настройка адаптера
+    foreach ($adapter in $adapters) {
+    # -like В PowerShell оператор -like используется для сравнения строк с помощью шаблонов (wildcards).
+        if ($adapter.Name -like "*Ethernet*") {
+            Write-Host "Настраиваем адаптер: $($adapter.Name)"
+            
+            # Сброс настроек и включение DHCP
+            Set-DnsClientServerAddress -InterfaceAlias $adapter.Name -ResetServerAddresses
+            Enable-NetAdapterBinding -Name $adapter.Name -ComponentID ms_tcpip
+            ipconfig /renew
+            
+            # Проверка DNS и настройка, если требуется по вашему совету надо писать или не надо
+            $dns = Get-DnsClientServerAddress -InterfaceAlias $adapter.Name
+            if ($dns.ServerAddresses -notcontains "127.0.0.1") {
+                Set-DnsClientServerAddress -InterfaceAlias $adapter.Name -ServerAddresses "127.0.0.1"
+            }
+
+            if ($dns.ServerAddresses -notcontains "8.8.8.8") {
+                Set-DnsClientServerAddress -InterfaceAlias $adapter.Name -ServerAddresses ("127.0.0.1", "8.8.8.8")
+            }
+        }
+    }
+} else {
+    Write-Host "Это клиентская версия Windows. Включаем DHCP и обновляем IP"
+
+    # Сброс настроек IP и перезапуск DHCP
+    Set-DnsClientServerAddress -ResetServerAddresses
+    ipconfig /renew
+}
