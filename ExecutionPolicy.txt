@@ -1,5 +1,0 @@
-Get-ExecutionPolicy
-проверка что сейчас стоит
-
-Set-ExecutionPolicy Bypass -Force
-поменять на выполнять всё
