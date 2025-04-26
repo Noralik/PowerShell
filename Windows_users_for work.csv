@@ -1,0 +1,21 @@
+username,firstname,lastname,password,Group,description,User must change password at next logon,User cannot chage password,Password never expires,Account is disable
+jsmith,John,Smith,p@ssw3rd,managers,room 10,TRUE,FALSE,FALSE,FALSE
+janesmith,Jane,Smith,s3cret,sales,room 11,TRUE,FALSE,FALSE,FALSE
+joesmith,Joe,Smith,blackd0g,It,room 12,TRUE,FALSE,FALSE,FALSE
+jimsmith,Jim,Smith,wh1it3cAt,managers,room 13,FALSE,FALSE,TRUE,TRUE
+jacksmith,Jack,Smith,blu3FisH,sales,room 14,FALSE,FALSE,TRUE,TRUE
+johndoe,John,Doe,R3dHors3,It,room 15,FALSE,FALSE,TRUE,TRUE
+janedoe,Jane,Doe,GreenFr0g,managers,room 16,FALSE,FALSE,TRUE,FALSE
+msanders,Michael,Sanders,YellowTurtle,sales,room 17,FALSE,TRUE,FALSE,FALSE
+boballen,Bob,Allen,PurpleSnake,It,room 18,FALSE,TRUE,FALSE,FALSE
+jamesq,James,Quimbly,PinkPig,managers,room 19,FALSE,TRUE,FALSE,FALSE
+mscott,Michael,Scott,WhiteZebra,sales,room 20,FALSE,TRUE,FALSE,FALSE
+jhalprin,Jim,Halprin,BlackTurkey,It,room 21,FALSE,TRUE,FALSE,FALSE
+tjones,Teresa,Jones,BlueHawk,managers,room 22,FALSE,TRUE,FALSE,FALSE
+tomjones,Tommy,Jones,GreenTree,sales,room 23,FALSE,TRUE,FALSE,FALSE
+greggjones,Gregg,Jones,OrangeFish,It,room 24,FALSE,TRUE,FALSE,FALSE
+dthompson,Daniel,Thompson,RedBoat,managers,room 25,FALSE,TRUE,FALSE,FALSE
+pjones,Pamela,Jones,BlackSnake,sales,room 26,FALSE,TRUE,FALSE,FALSE
+fsmith,Fred,Smith,WhiteHorse,It,room 27,FALSE,TRUE,FALSE,FALSE
+fransmith,Fran,Smith,YellowDuck,managers,room 28,FALSE,TRUE,FALSE,FALSE
+cthompson,Chris,Thompson,BlueEel,sales,room 29,FALSE,TRUE,FALSE,FALSE
