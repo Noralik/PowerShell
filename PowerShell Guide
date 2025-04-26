@@ -1,0 +1,88 @@
+# PowerShell Guide
+Практические скрипты для работы с дисками, маппингом сетевых папок, политикой выполнения скриптов и базовыми операциями через diskpart.
+
+---
+
+## 1. Политика выполнения скриптов
+Проверка текущей политики:
+Get-ExecutionPolicy
+
+Изменение политики для разрешения выполнения всех скриптов:
+Set-ExecutionPolicy Bypass -Force
+
+---
+
+## 2. Маппинг сетевых дисков
+Удаление всех текущих подключений:
+net use * /delete /yes
+
+Подключение сетевых папок:
+net use G: \\192.168.17.2\share_1
+net use H: \\192.168.17.2\share_2
+
+Альтернативное подключение:
+net use Z: \\192.168.10.0\share
+
+---
+
+## 3. Копирование пользовательских данных
+Переход в папку с резервными копиями и копирование данных на рабочий стол пользователя:
+cd C:\new_drive\all_users\$env:UserName
+cp * C:\Users\$env:UserName\Desktop\$env:UserName
+
+---
+
+## 4. Работа с дисками через DiskPart
+
+### Создание простого тома
+1. Открыть PowerShell от имени администратора.
+2. Выполнить команды:
+diskpart
+list disk
+select disk N
+convert dynamic
+create volume simple
+format fs=ntfs quick
+assign letter=E
+
+Если нужно замонтировать в папку:
+assign mount="Path"
+
+---
+
+### Создание RAID 1 (зеркальный том)
+
+**Вариант 1 — через add disk:**
+diskpart
+list disk
+select disk 1
+convert dynamic
+create volume simple
+select disk 2
+convert dynamic
+create volume simple
+list volume
+select volume 1
+add disk=2
+format fs=ntfs quick
+assign letter=E
+exit
+
+**Вариант 2 — сразу создание зеркала:**
+diskpart
+list disk
+select disk 1
+convert dynamic
+select disk 2
+convert dynamic
+select disk 1
+create volume mirrored disk=2
+format fs=ntfs quick
+assign letter=E
+exit
+
+---
+
+# Примечания
+- Использовать Set-ExecutionPolicy Bypass -Force перед выполнением скриптов.
+- Скрипты маппинга дисков можно сохранять в .bat файлы или запускать через консоль напрямую.
