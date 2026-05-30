@@ -1,0 +1,44 @@
+$roots = @("C:\Games", "D:\Games")
+
+$result = foreach ($root in $roots) {
+
+    Get-ChildItem $root -Directory -Force | ForEach-Object {
+
+        # special processing HoYoPlay
+        if ($_.Name -eq "HoYoPlay") {
+
+            $gamesPath = Join-Path $_.FullName "games"
+
+            if (Test-Path $gamesPath) {
+                Get-ChildItem $gamesPath -Directory -Force | ForEach-Object {
+                    [PSCustomObject]@{
+                        Name   = $_.Name
+                        Path   = $_.FullName
+                        SizeGB = [math]::Round(
+                            (
+                                (Get-ChildItem $_.FullName -Recurse -Force -ErrorAction SilentlyContinue |
+                                Measure-Object Length -Sum).Sum
+                            ) / 1GB,
+                            2
+                        )
+                    }
+                }
+            }
+        }
+        else {
+            [PSCustomObject]@{
+                Name   = $_.Name
+                Path   = $_.FullName
+                SizeGB = [math]::Round(
+                    (
+                        (Get-ChildItem $_.FullName -Recurse -Force -ErrorAction SilentlyContinue |
+                        Measure-Object Length -Sum).Sum
+                    ) / 1GB,
+                    2
+                )
+            }
+        }
+    }
+}
+
+$result | Sort-Object SizeGB -Descending | Format-Table -AutoSize
